@@ -12,9 +12,9 @@ public class Tester {
 		
 		Director director = Register.getInstance().CreatePlayer("20150210", 1, "TTDDSS");
 		//director.initEquip(1);
-		director.initEquip(2);
+		//director.initEquip(2);
 		//director.initEquip(3);
-		director.initEquip(4);
+		//director.initEquip(4);
 		//director.initEquip(5);
 		//director.initEquip(6);
 		//director.heroUpPhase(1);

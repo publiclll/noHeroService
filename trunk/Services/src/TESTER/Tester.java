@@ -8,9 +8,11 @@ public class Tester {
 
 	public static void main(String[] args) {
 		
-		System.out.println("是否存在：" + Register.getInstance().checkRole("20150210"));
+		
+		//System.out.println("是否存在：" + Register.getInstance().checkRole("20150210"));
 		
 		Director director = Register.getInstance().CreatePlayer("20150210", 1, "TTDDSS");
+		director.getHero();
 		//director.initEquip(1);
 		//director.initEquip(2);
 		//director.initEquip(3);
@@ -25,7 +27,7 @@ public class Tester {
 		//director.wornEquip(1, 1);
 		//director.wornEquip(1, 3);
 		
-		director.showPlayerInfo();
+		//director.showPlayerInfo();
 		//director.heroUpPhase(1);
 		//director.showPlayerInfo();
 		//director.showPlayerInfo();

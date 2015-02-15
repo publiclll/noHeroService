@@ -467,6 +467,11 @@ public class ConfigScheduling {
 	public Hero getHero(int cfgId) {
 		return heroList.get(cfgId).clone();
 	}
+	
+	public int getHeroCount()
+	{
+		return heroList.size();
+	}
 
 	public Skill getSkill(int cfgId) {
 		return skillList.get(cfgId).clone();

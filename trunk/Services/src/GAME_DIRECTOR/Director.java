@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Random;
 
 import GAME_ADAPTER.DataAdapter;
 import GAME_COMPONENTS.Equip;
@@ -12,6 +13,7 @@ import GAME_COMPONENTS.Player;
 import GAME_ENUM.GameDataType;
 import GAME_ENUM.GameNotifyType;
 import GAME_ENUM.GameObjectType;
+import GAME_SCHEDULING.ConfigScheduling;
 import GAME_SCHEDULING.EventScheduling;
 
 /**
@@ -59,6 +61,17 @@ public class Director {
 	}
 
 	/**
+	 * 随机获得一个英雄
+	 */
+	public void getHero() {
+		int max = ConfigScheduling.getInstance().getHeroCount();
+		int min = 1;
+		Random random = new Random();
+		int cfgId = random.nextInt(max) % (max - min + 1) + min;
+		initHero(cfgId);
+	}
+
+	/**
 	 * 测试方法
 	 */
 	public void showPlayerInfo() {
@@ -79,10 +92,8 @@ public class Director {
 		}
 		Log("===============");
 		Log("进阶所需装备：");
-		if(hero.getUpPhaseEquipList()!=null)
-		{
-			for(Equip e: hero.getUpPhaseEquipList().values())
-			{
+		if (hero.getUpPhaseEquipList() != null) {
+			for (Equip e : hero.getUpPhaseEquipList().values()) {
 				Log(" " + e.getName());
 			}
 		}
@@ -225,37 +236,32 @@ public class Director {
 		Hero hero = player.getObjCollection().getHero(hero_cfgId);
 		Equip equip = player.getObjCollection().getEquip(equip_cfgId);
 
-		if(hero == null)
-		{
+		if (hero == null) {
 			Log("[ERROR]英雄对象空指针");
-			return ;
+			return;
 		}
-		if(equip == null)
-		{
+		if (equip == null) {
 			Log("[ERROR]装备对象空指针");
-			return ;
+			return;
 		}
-		if(equip.getHeroLevelLimit() > hero.getLevel())
-		{
+		if (equip.getHeroLevelLimit() > hero.getLevel()) {
 			Log("[ERROR]英雄等级不够");
-			return ;
+			return;
 		}
-		if(hero.getUpPhaseEquipList().get(equip.getCfgID())==null)
-		{
+		if (hero.getUpPhaseEquipList().get(equip.getCfgID()) == null) {
 			Log("[ERROR]不能装备这个");
-			return ;
+			return;
 		}
-		if(hero.getEquipList().get(equip.getCfgID())!=null)
-		{
+		if (hero.getEquipList().get(equip.getCfgID()) != null) {
 			Log("[ERROR]不能重复装备这个");
-			return ;
+			return;
 		}
 
 		/**
 		 * 验证完了，没问题，穿
 		 */
 		hero.getEquipList().put(equip.getCfgID(), equip);
-		
+
 		/**
 		 * 进行数据库操作
 		 */
@@ -271,10 +277,10 @@ public class Director {
 		 */
 		gameEvent.doNotify(GameNotifyType.WORNEQUIP_TYPE, equip.getID(), hero);
 		if ((equip.getCount() - 1) <= 0) {
-			//销毁对象
+			// 销毁对象
 			player.getObjCollection().removeObj(equip);
 		}
-		
+
 		/**
 		 * 保存
 		 */
